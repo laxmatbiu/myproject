@@ -7,12 +7,12 @@ $role = new ACLRole;
 $user_role = $role->getUserRoles($current_user->id);
 $tt = '';
 foreach ($user_role as $us){
-    if ($us == 'Отдел продаж'){
-        $tt = 'продацец';
+    if ($us == 'РћС‚РґРµР» РїСЂРѕРґР°Р¶'){
+        $tt = 'РїСЂРѕРґР°С†РµС†';
     }
 }
-if ($tt == 'продацец'){
-    echo 'У вас недостаточно прав для просмотра данной страницы';
+if ($tt == 'РїСЂРѕРґР°С†РµС†'){
+    echo 'РЈ РІР°СЃ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїСЂР°РІ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° РґР°РЅРЅРѕР№ СЃС‚СЂР°РЅРёС†С‹';
 }
 else {
     $query = "select drop_tools.name as tool,
@@ -38,7 +38,7 @@ else {
     where drop_storage.deleted = 0
     and drop_request_drop_storage_1_c.deleted = 0
     and drop_request_drop_storage_1_c.drop_request_drop_storage_1drop_request_ida = '{$id}'";
-$res=$GLOBALS['db']->query($query);
+    $res=$GLOBALS['db']->query($query);
     $get_number = "select drop_request.name as name,
     drop_buyer.discount as discount,
     drop_buyer.name as buyer_name
@@ -50,10 +50,10 @@ $res=$GLOBALS['db']->query($query);
     $row_req=$GLOBALS['db']->fetchByAssoc($r_req);
     ?>
 
-    <h3 style="text-align: center; font-size: 14px">Запрос № <?php echo $row_req['name'];?></h3><br/>
-    <h3 style="text-align: center; font-size: 14px">Заказчик: <?php echo $row_req['buyer_name'];?>; Скидка: <span id="discount"><?php echo $row_req['discount']?></span>%</h3>
+    <h3 style="text-align: center; font-size: 14px">Р—Р°РїСЂРѕСЃ в„– <?php echo $row_req['name'];?></h3><br/>
+    <h3 style="text-align: center; font-size: 14px">Р—Р°РєР°Р·С‡РёРє: <?php echo $row_req['buyer_name'];?>; РЎРєРёРґРєР°: <span id="discount"><?php echo $row_req['discount']?></span>%</h3>
 
-        <?php
+    <?php
     $storages = "select drop_tools.name as tool,
     drop_tools.id as tool_id,
     drop_storage.id as drop_id,
@@ -66,11 +66,11 @@ $res=$GLOBALS['db']->query($query);
     and drop_request_drop_storage_1_c.drop_request_drop_storage_1drop_request_ida = '{$id}'
     and drop_request_drop_storage_1_c.deleted = 0
     order by tool";
-        while($r=$GLOBALS['db']->fetchByAssoc($res)){
-            $stor[] = $r;
-        };
+    while($r=$GLOBALS['db']->fetchByAssoc($res)){
+        $stor[] = $r;
+    };
     $r_stor = $GLOBALS['db']->query($storages);
-?>
+    ?>
     <head>
         <style type="text/css">
             td {
@@ -82,107 +82,114 @@ $res=$GLOBALS['db']->query($query);
         </style>
     </head>
     <form>
-    <table border="1px solid" style="margin: auto; font-size: 14px">
+        <table border="1px solid" style="margin: auto; font-size: 14px">
 
-    <tr style="border: 1px solid">
-        <th style="border: 1px solid">Запчасть</th>
-        <th style="border: 1px solid">Количество</th>
-        <th style="border: 1px solid">Поставщик</th>
-        <th style="border: 1px solid">Цена без скидки</th>
-        <th style="border: 1px solid">Цена по инвойсу</th>
-        <th style="border: 1px solid">Стоимость доставки</th>
-        <th style="border: 1px solid">Маржа %</th>
-        <th style="border: 1px solid">Формула</th>
-        <th style="border: 1px solid">Купить у этого поставщика</th>
+            <tr style="border: 1px solid">
+                <th style="border: 1px solid">Р—Р°РїС‡Р°СЃС‚СЊ</th>
+                <th style="border: 1px solid">РљРѕР»РёС‡РµСЃС‚РІРѕ</th>
+                <th style="border: 1px solid">РџРѕСЃС‚Р°РІС‰РёРє</th>
+                <th style="border: 1px solid">Р¦РµРЅР° СЃРѕ СЃРєРёРґРєРѕР№</th>
+                <th style="border: 1px solid">Р¦РµРЅР° Р±РµР· СЃРєРёРґРєРё</th>
+                <th style="border: 1px solid">Р¦РµРЅР° РїРѕ РёРЅРІРѕР№СЃСѓ</th>
+                <th style="border: 1px solid">РЎС‚РѕРёРјРѕСЃС‚СЊ РґРѕСЃС‚Р°РІРєРё</th>
+                <th style="border: 1px solid">РњР°СЂР¶Р° %</th>
+                <th style="border: 1px solid">Р¤РѕСЂРјСѓР»Р°</th>
+                <th style="border: 1px solid">РљСѓРїРёС‚СЊ Сѓ СЌС‚РѕРіРѕ РїРѕСЃС‚Р°РІС‰РёРєР°</th>
 
-    </tr><?php
-         $j=1;
-    while ($row_stor = $GLOBALS['db']->fetchByAssoc($r_stor)){ ?>
-
-
-        <tr style="border: 1px solid">
-            <td style="border: 1px solid"><?php echo $row_stor['tool'];?></td>
-            <td style="border: 1px solid; text-align: center" id="count<?php echo $j?>"><?php echo $row_stor['count'];?></td>
-        <?php
-
-        $i=0;
-
-            foreach ($stor as $st){
-
-            if ($st['tool_id']==$row_stor['tool_id'] and $st['drop_id']==$row_stor['id']){
-            if ($i!=0){?>
-              <td></td><td></td>
-           <?php }
-            ?>
-
-            <td style="border: 1px solid"><?php echo $st['supl'];?></td>
-            <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j?>"><?php echo $st['price'];?></td>
-            <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
-            <td style="border: 1px solid; text-align: center" class="edit"><?php echo $st['dost'];?></td>
-            <td  name="<?php echo $i.'|'.$j?>" id="marz<?php echo $i.'|'.$j?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
-            <td style="border: 1px solid; text-align: center"><?php echo $st['formula'];?></td>
-            <td style="border: 1px solid"><input type="radio" name="<?php echo $j;?>" value="<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="position: relative; float: left; left: 49%"></td>
+            </tr><?php
+            $j=1;
+            while ($row_stor = $GLOBALS['db']->fetchByAssoc($r_stor)){ ?>
 
 
-        </tr>
-        <?php
-        $i=$i+1;
-            }
+                <tr style="border: 1px solid">
+                <td style="border: 1px solid"><?php echo $row_stor['tool'];?></td>
+                <td style="border: 1px solid; text-align: center" id="count<?php echo $j?>"><?php echo $row_stor['count'];?></td>
+                <?php
 
-            } ?>
+                $i=0;
 
-<tr style="height: 10px"></tr>
+                foreach ($stor as $st){
+
+                    if ($st['tool_id']==$row_stor['tool_id'] and $st['drop_id']==$row_stor['id']){
+                        if ($i!=0){?>
+                            <td></td><td></td>
+                        <?php }
+
+                        $priced = $st['price'];
+
+                        if ($st['formula']=='РљРёС‚Р°Р№'){
+
+                        }
+                        ?>
+
+                        <td style="border: 1px solid"><?php echo $st['supl'];?></td>
+                        <td style="border: 1px solid; text-align: center" id="priced<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $priced;?></td>
+                        <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['price'];?></td>
+                        <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
+                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="dost<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center" class="dostavka"><?php echo $st['dost'];?></td>
+                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="marz<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
+                        <td style="border: 1px solid; text-align: center" id="formula<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['formula'];?></td>
+                        <td style="border: 1px solid"><input type="radio" name="<?php echo $j;?>" value="<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="position: relative; float: left; left: 49%"></td>
 
 
-        <span style="display: none"><input type="radio" value="" id="input<?php echo $j?>"></span>
-        <?php
-        $j++;
-    }?>
-    <tr>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ИТОГО:</td><td style="text-align: center" id="itogo">0</td>
+                        </tr>
+                        <?php
+                        $i=$i+1;
+                    }
 
-    </tr>
-        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">Передать значения</button></td></tr>
+                } ?>
 
-    </table>
+                <tr style="height: 10px"></tr>
+
+
+                <span style="display: none"><input type="radio" value="" id="input<?php echo $j?>"></span>
+                <?php
+                $j++;
+            }?>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>РРўРћР“Рћ:</td><td style="text-align: center" id="itogo">0</td>
+
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">РџРµСЂРµРґР°С‚СЊ Р·РЅР°С‡РµРЅРёСЏ</button></td></tr>
+
+        </table>
 
     </form>
     <script type="text/javascript">
         $(function () {
             $(".marza").dblclick(function (e) {
-                e.stopPropagation();
-                var currentEle = $(e.target);
-                var value = $(e.target).html();
-                ggg = value;
-                namb = $(e.target).attr('name');
-                getPrice(namb)
-                function getPrice (namr){
-                    var price = document.getElementById('price'+namr).innerHTML;
-                    var marzaOld = document.getElementById('marz'+namr).innerHTML;
-                    var k = 1+parseFloat(marzaOld)/100;
-                    var beforemarza = price/k;
-                    var someid = document.getElementById('beforemarza');
-                    if (someid){
-                        someid.innerHTML = beforemarza
-                    }else{
-                        var newSpan = document.createElement('span');
-                        newSpan.id = "beforemarza";
-                        newSpan.innerHTML = beforemarza;
-                        newSpan.style.display = 'none';
-                        document.body.appendChild(newSpan);
+                    e.stopPropagation();
+                    var currentEle = $(e.target);
+                    var value = $(e.target).html();
+                    namb = $(e.target).attr('name');
+                    getPrice(namb)
+                    function getPrice (namr){
+                        var price = document.getElementById('price'+namr).innerHTML;
+                        var marzaOld = document.getElementById('marz'+namr).innerHTML;
+                        var k = 1+parseFloat(marzaOld)/100;
+                        var beforemarza = price/k;
+                        var someid = document.getElementById('beforemarza');
+                        if (someid){
+                            someid.innerHTML = beforemarza
+                        }else{
+                            var newSpan = document.createElement('span');
+                            newSpan.id = "beforemarza";
+                            newSpan.innerHTML = beforemarza;
+                            newSpan.style.display = 'none';
+                            document.body.appendChild(newSpan);
+                        }
+
+                        return true;
                     }
+                    console.log($(e.target));
 
-                    return true;
+                    if ($.trim(value) === "") {
+                        $(currentEle).data('mode', 'add');
+                    } else {
+                        $(currentEle).data('mode', 'edit');
+                    }
+                    updateVal(currentEle, value);
                 }
-                console.log($(e.target));
-
-                if ($.trim(value) === "") {
-                    $(currentEle).data('mode', 'add');
-                } else {
-                    $(currentEle).data('mode', 'edit');
-                }
-                updateVal(currentEle, value);
-            }
 
 
             );
@@ -220,9 +227,11 @@ $res=$GLOBALS['db']->query($query);
 
         function changePrice(){
             var marza = document.getElementById('marz'+namb).innerHTML;
-            var price = document.getElementById('price'+namb);
+            var price = document.getElementById('price'+namb);// Р±РµР· СЃРєРёР·РєРё
+            var priced = document.getElementById('priced'+namb);//cРѕ СЃРєРёРґРєРѕР№
             var beforemarza = document.getElementById('beforemarza').innerHTML;
             price.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3);
+            priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
         }
 
     </script>
@@ -234,7 +243,7 @@ $res=$GLOBALS['db']->query($query);
                 $('input:radio').each(function() {
                     nam = $(this).attr('name');
                     if (submitme && !$(':radio[name="'+nam+'"]:checked').length) {
-                        alert('Не все поставщики отмечены');
+                        alert('РќРµ РІСЃРµ РїРѕСЃС‚Р°РІС‰РёРєРё РѕС‚РјРµС‡РµРЅС‹');
                         submitme = false;
                     }
                 });
@@ -248,18 +257,18 @@ $res=$GLOBALS['db']->query($query);
                 var hiden = document.getElementById('input'+j);
                 var hidenArrey = hiden.value.split('|');
                 if (hidenArrey[0]!=0 && hidenArrey[1]!=array[0]){
-                itog = itog - hidenArrey[0];
-                itogo.innerHTML = itog;
+                    itog = itog - hidenArrey[0];
+                    itogo.innerHTML = itog;
                 }
             });
-           $('input:radio').change(
+            $('input:radio').change(
                 function(){
                     var array = this.value.split('|')
                     var i = array[0];
                     var j = array[1];
                     var formula = array[2];
                     var itogo  = document.getElementById('itogo');
-                    var price = document.getElementById('price'+i);
+                    var price = document.getElementById('priced'+i+'|'+j);
                     var count = document.getElementById('count'+j);
                     var tt = count.innerHTML * price.innerHTML;
                     var hiden = document.getElementById('input'+j);
@@ -267,21 +276,109 @@ $res=$GLOBALS['db']->query($query);
                     hiden.value = tt+'|'+i+'|'+j;
                     var itog = itogo.innerHTML
                     itog = parseFloat(itog) + price.innerHTML * count.innerHTML;
-                    itogo.innerHTML=itog;
+                    itogo.innerHTML=itog.toFixed(3);
 
                 }
             );
         });
-
-
-
-
-       // $('input[name=1]:checked', '#myForm').val()
+        // $('input[name=1]:checked', '#myForm').val()
     </script>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $(".dostavka").dblclick(function (e) {
+                    e.stopPropagation();
+                    var currentEle = $(e.target);
+                    var value = $(e.target).html();
+                    nambb = $(e.target).attr('name');
+                    getPrice(nambb)
+                    function getPrice (namr){
+                        var price = document.getElementById('price'+namr).innerHTML;
+                        var marza = document.getElementById('marz'+namr).innerHTML;
+                        var dostOld = document.getElementById('dost'+namr).innerHTML;
+                        var formula = document.getElementById('formula'+namr).innerHTML;
+                        if (formula == 'Р’РѕСЃС…РѕРґ'){
+                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
+                            var beforedost = parseFloat(price)-parseFloat(k);
+                        } else {
+                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
+                            var beforedost = parseFloat(price)-parseFloat(k);// todo finljandija
+                        }
+
+                        var someid = document.getElementById('beforedost');
+                        if (someid){
+                            someid.innerHTML = beforedost
+                        }else{
+                            var Span = document.createElement('span');
+                            Span.id = "beforedost";
+                            Span.innerHTML = beforedost;
+                            Span.style.display = 'none';
+                            document.body.appendChild(Span);
+                        }
+
+                        return true;
+                    }
+                    console.log($(e.target));
+
+                    if ($.trim(value) === "") {
+                        $(currentEle).data('mode', 'add');
+                    } else {
+                        $(currentEle).data('mode', 'edit');
+                    }
+                    updateVal(currentEle, value);
+                }
+
+
+            );
+        });
+
+        function updateVal(currentEle, value) {
+
+            $(currentEle).html('<input class="thVal" type="text" value="' + value + '" />');
+
+            var mode = $(currentEle).data('mode');
+            $(".thVal").focus();
+            $(".thVal").select();
+            $(".thVal").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $(this).parent().html($(this).val().trim());
+                    $(".thVal").remove();
+
+                }
+
+            });
+        }
+
+
+
+        $(document).click(function (e) {
+            if ($(".thVal") !== undefined) {
+                if ($(".thVal").val() !== undefined) {
+                    $(".thVal").parent().html($(".thVal").val().trim());
+                    $(".thVal").remove();
+                    changePrice();
+                }
+            }
+        });
+
+
+        function changePrice(){
+            var marza = document.getElementById('marz'+nambb).innerHTML;
+            var dost = document.getElementById('dost'+nambb).innerHTML;
+            var price = document.getElementById('price'+nambb);// Р±РµР· СЃРєРёР·РєРё
+            var priced = document.getElementById('priced'+nambb);//cРѕ СЃРєРёРґРєРѕР№
+            var beforedost = document.getElementById('beforedost').innerHTML;
+            price.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3);
+            priced.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3); // TODO
+        }
+
+    </script>
+
 <?php
 }
-        ?>
-
+?>
 
 
 
