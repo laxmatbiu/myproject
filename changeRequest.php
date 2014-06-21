@@ -88,6 +88,10 @@ else {
                 <th style="border: 1px solid">Запчасть</th>
                 <th style="border: 1px solid">Количество</th>
                 <th style="border: 1px solid">Поставщик</th>
+<<<<<<< HEAD
+=======
+                <th style="border: 1px solid">Цена со скидкой</th>
+>>>>>>> origin/master
                 <th style="border: 1px solid">Цена без скидки</th>
                 <th style="border: 1px solid">Цена по инвойсу</th>
                 <th style="border: 1px solid">Стоимость доставки</th>
@@ -113,6 +117,7 @@ else {
                         if ($i!=0){?>
                             <td></td><td></td>
                         <?php }
+<<<<<<< HEAD
                         ?>
 
                         <td style="border: 1px solid"><?php echo $st['supl'];?></td>
@@ -121,6 +126,23 @@ else {
                         <td style="border: 1px solid; text-align: center" class="edit"><?php echo $st['dost'];?></td>
                         <td  name="<?php echo $i.'|'.$j?>" id="marz<?php echo $i.'|'.$j?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
                         <td style="border: 1px solid; text-align: center"><?php echo $st['formula'];?></td>
+=======
+
+                        $priced = $st['price'];
+
+                        if ($st['formula']=='Китай'){
+
+                        }
+                        ?>
+
+                        <td style="border: 1px solid"><?php echo $st['supl'];?></td>
+                        <td style="border: 1px solid; text-align: center" id="priced<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $priced;?></td>
+                        <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['price'];?></td>
+                        <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
+                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="dost<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center" class="dostavka"><?php echo $st['dost'];?></td>
+                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="marz<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
+                        <td style="border: 1px solid; text-align: center" id="formula<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['formula'];?></td>
+>>>>>>> origin/master
                         <td style="border: 1px solid"><input type="radio" name="<?php echo $j;?>" value="<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="position: relative; float: left; left: 49%"></td>
 
 
@@ -139,10 +161,17 @@ else {
                 $j++;
             }?>
             <tr>
+<<<<<<< HEAD
                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ИТОГО:</td><td style="text-align: center" id="itogo">0</td>
 
             </tr>
             <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">Передать значения</button></td></tr>
+=======
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ИТОГО:</td><td style="text-align: center" id="itogo">0</td>
+
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">Передать значения</button></td></tr>
+>>>>>>> origin/master
 
         </table>
 
@@ -153,7 +182,10 @@ else {
                     e.stopPropagation();
                     var currentEle = $(e.target);
                     var value = $(e.target).html();
+<<<<<<< HEAD
                     ggg = value;
+=======
+>>>>>>> origin/master
                     namb = $(e.target).attr('name');
                     getPrice(namb)
                     function getPrice (namr){
@@ -220,9 +252,11 @@ else {
 
         function changePrice(){
             var marza = document.getElementById('marz'+namb).innerHTML;
-            var price = document.getElementById('price'+namb);
+            var price = document.getElementById('price'+namb);// без скизки
+            var priced = document.getElementById('priced'+namb);//cо скидкой
             var beforemarza = document.getElementById('beforemarza').innerHTML;
             price.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3);
+            priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
         }
 
     </script>
@@ -259,7 +293,7 @@ else {
                     var j = array[1];
                     var formula = array[2];
                     var itogo  = document.getElementById('itogo');
-                    var price = document.getElementById('price'+i);
+                    var price = document.getElementById('priced'+i+'|'+j);
                     var count = document.getElementById('count'+j);
                     var tt = count.innerHTML * price.innerHTML;
                     var hiden = document.getElementById('input'+j);
@@ -267,21 +301,117 @@ else {
                     hiden.value = tt+'|'+i+'|'+j;
                     var itog = itogo.innerHTML
                     itog = parseFloat(itog) + price.innerHTML * count.innerHTML;
-                    itogo.innerHTML=itog;
+                    itogo.innerHTML=itog.toFixed(3);
 
                 }
             );
         });
-
-
-
-
         // $('input[name=1]:checked', '#myForm').val()
     </script>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $(".dostavka").dblclick(function (e) {
+                    e.stopPropagation();
+                    var currentEle = $(e.target);
+                    var value = $(e.target).html();
+                    nambb = $(e.target).attr('name');
+                    getPrice(nambb)
+                    function getPrice (namr){
+                        var price = document.getElementById('price'+namr).innerHTML;
+                        var marza = document.getElementById('marz'+namr).innerHTML;
+                        var dostOld = document.getElementById('dost'+namr).innerHTML;
+                        var formula = document.getElementById('formula'+namr).innerHTML;
+                        if (formula == 'Восход'){
+                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
+                            var beforedost = parseFloat(price)-parseFloat(k);
+                        } else {
+                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
+                            var beforedost = parseFloat(price)-parseFloat(k);// todo finljandija
+                        }
+
+                        var someid = document.getElementById('beforedost');
+                        if (someid){
+                            someid.innerHTML = beforedost
+                        }else{
+                            var Span = document.createElement('span');
+                            Span.id = "beforedost";
+                            Span.innerHTML = beforedost;
+                            Span.style.display = 'none';
+                            document.body.appendChild(Span);
+                        }
+
+                        return true;
+                    }
+                    console.log($(e.target));
+
+                    if ($.trim(value) === "") {
+                        $(currentEle).data('mode', 'add');
+                    } else {
+                        $(currentEle).data('mode', 'edit');
+                    }
+                    updateVal(currentEle, value);
+                }
+
+
+            );
+        });
+
+        function updateVal(currentEle, value) {
+
+            $(currentEle).html('<input class="thVal" type="text" value="' + value + '" />');
+
+            var mode = $(currentEle).data('mode');
+            $(".thVal").focus();
+            $(".thVal").select();
+            $(".thVal").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $(this).parent().html($(this).val().trim());
+                    $(".thVal").remove();
+
+                }
+
+            });
+        }
+
+
+
+        $(document).click(function (e) {
+            if ($(".thVal") !== undefined) {
+                if ($(".thVal").val() !== undefined) {
+                    $(".thVal").parent().html($(".thVal").val().trim());
+                    $(".thVal").remove();
+                    changePrice();
+                }
+            }
+        });
+
+
+        function changePrice(){
+            var marza = document.getElementById('marz'+nambb).innerHTML;
+            var dost = document.getElementById('dost'+nambb).innerHTML;
+            var price = document.getElementById('price'+nambb);// без скизки
+            var priced = document.getElementById('priced'+nambb);//cо скидкой
+            var beforedost = document.getElementById('beforedost').innerHTML;
+            price.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3);
+            priced.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3); // TODO
+        }
+
+<<<<<<< HEAD
+        // $('input[name=1]:checked', '#myForm').val()
+=======
+>>>>>>> origin/master
+    </script>
+
 <?php
 }
 ?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 
 
 
