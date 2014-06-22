@@ -88,10 +88,7 @@ else {
                 <th style="border: 1px solid">Запчасть</th>
                 <th style="border: 1px solid">Количество</th>
                 <th style="border: 1px solid">Поставщик</th>
-<<<<<<< HEAD
-=======
                 <th style="border: 1px solid">Цена со скидкой</th>
->>>>>>> origin/master
                 <th style="border: 1px solid">Цена без скидки</th>
                 <th style="border: 1px solid">Цена по инвойсу</th>
                 <th style="border: 1px solid">Стоимость доставки</th>
@@ -117,32 +114,24 @@ else {
                         if ($i!=0){?>
                             <td></td><td></td>
                         <?php }
-<<<<<<< HEAD
-                        ?>
-
-                        <td style="border: 1px solid"><?php echo $st['supl'];?></td>
-                        <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j?>"><?php echo $st['price'];?></td>
-                        <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
-                        <td style="border: 1px solid; text-align: center" class="edit"><?php echo $st['dost'];?></td>
-                        <td  name="<?php echo $i.'|'.$j?>" id="marz<?php echo $i.'|'.$j?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
-                        <td style="border: 1px solid; text-align: center"><?php echo $st['formula'];?></td>
-=======
 
                         $priced = $st['price'];
 
                         if ($st['formula']=='Китай'){
-
+                            $gg = 'someclass';
+                        }else{
+                            $gg = 'dostavka';
                         }
+
                         ?>
 
                         <td style="border: 1px solid"><?php echo $st['supl'];?></td>
                         <td style="border: 1px solid; text-align: center" id="priced<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $priced;?></td>
                         <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['price'];?></td>
                         <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
-                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="dost<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center" class="dostavka"><?php echo $st['dost'];?></td>
+                        <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="dost<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center" class="<?php echo $gg;?>"><?php echo $st['dost'];?></td>
                         <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="marz<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
                         <td style="border: 1px solid; text-align: center" id="formula<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['formula'];?></td>
->>>>>>> origin/master
                         <td style="border: 1px solid"><input type="radio" name="<?php echo $j;?>" value="<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="position: relative; float: left; left: 49%"></td>
 
 
@@ -161,17 +150,10 @@ else {
                 $j++;
             }?>
             <tr>
-<<<<<<< HEAD
-                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ИТОГО:</td><td style="text-align: center" id="itogo">0</td>
-
-            </tr>
-            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">Передать значения</button></td></tr>
-=======
                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ИТОГО:</td><td style="text-align: center" id="itogo">0</td>
 
             </tr>
             <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type="submit" style="position: relative;float: left;left: 17%">Передать значения</button></td></tr>
->>>>>>> origin/master
 
         </table>
 
@@ -182,12 +164,9 @@ else {
                     e.stopPropagation();
                     var currentEle = $(e.target);
                     var value = $(e.target).html();
-<<<<<<< HEAD
-                    ggg = value;
-=======
->>>>>>> origin/master
                     namb = $(e.target).attr('name');
-                    getPrice(namb)
+                    classS = $(e.target).attr('class');
+                    getPrice(namb);
                     function getPrice (namr){
                         var price = document.getElementById('price'+namr).innerHTML;
                         var marzaOld = document.getElementById('marz'+namr).innerHTML;
@@ -244,7 +223,11 @@ else {
                 if ($(".thVal").val() !== undefined) {
                     $(".thVal").parent().html($(".thVal").val().trim());
                     $(".thVal").remove();
-                    changePrice();
+                    if (classS=='marza'){
+                        changePrice();
+                    }else {
+                        changePriceD()
+                    }
                 }
             }
         });
@@ -258,6 +241,7 @@ else {
             price.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3);
             priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
         }
+
 
     </script>
 
@@ -293,7 +277,7 @@ else {
                     var j = array[1];
                     var formula = array[2];
                     var itogo  = document.getElementById('itogo');
-                    var price = document.getElementById('priced'+i+'|'+j);
+                    var price = document.getElementById('priced'+i+'|'+j+'|'+formula);
                     var count = document.getElementById('count'+j);
                     var tt = count.innerHTML * price.innerHTML;
                     var hiden = document.getElementById('input'+j);
@@ -302,7 +286,6 @@ else {
                     var itog = itogo.innerHTML
                     itog = parseFloat(itog) + price.innerHTML * count.innerHTML;
                     itogo.innerHTML=itog.toFixed(3);
-
                 }
             );
         });
@@ -318,20 +301,26 @@ else {
                     var currentEle = $(e.target);
                     var value = $(e.target).html();
                     nambb = $(e.target).attr('name');
+                    classS = $(e.target).attr('class');
                     getPrice(nambb)
                     function getPrice (namr){
                         var price = document.getElementById('price'+namr).innerHTML;
                         var marza = document.getElementById('marz'+namr).innerHTML;
                         var dostOld = document.getElementById('dost'+namr).innerHTML;
                         var formula = document.getElementById('formula'+namr).innerHTML;
+                        var array = nambb.split('|');
+                        var j = array[1];
+                        var count = document.getElementById('count'+j).innerHTML;
                         if (formula == 'Восход'){
-                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
-                            var beforedost = parseFloat(price)-parseFloat(k);
+                            var kk = 1+ parseFloat(marza)/100 + 0.18;
+                            var k = parseFloat(dostOld)*kk;
+                            var tt = parseFloat(price)*count;
+                            var beforedost = parseFloat(tt)-parseFloat(k);
                         } else {
-                            var k = parseFloat(dostOld)*(parseFloat(marza)/100+0,18);
-                            var beforedost = parseFloat(price)-parseFloat(k);// todo finljandija
+                            var first = (parseFloat(price)*count+parseFloat(dostOld))*0.06;
+                            var k = (parseFloat(dostOld)+parseFloat(first))*(parseFloat(marza)/100);
+                            var beforedost = parseFloat(price)*count-parseFloat(k);//todo fix
                         }
-
                         var someid = document.getElementById('beforedost');
                         if (someid){
                             someid.innerHTML = beforedost
@@ -372,7 +361,6 @@ else {
                     $(".thVal").remove();
 
                 }
-
             });
         }
 
@@ -383,35 +371,47 @@ else {
                 if ($(".thVal").val() !== undefined) {
                     $(".thVal").parent().html($(".thVal").val().trim());
                     $(".thVal").remove();
+                    if (classS=='marza'){
                     changePrice();
+                    }else {
+                        changePriceD()
+                    }
+
                 }
             }
         });
 
 
-        function changePrice(){
+
+        function changePriceD(){
+
             var marza = document.getElementById('marz'+nambb).innerHTML;
             var dost = document.getElementById('dost'+nambb).innerHTML;
             var price = document.getElementById('price'+nambb);// без скизки
             var priced = document.getElementById('priced'+nambb);//cо скидкой
             var beforedost = document.getElementById('beforedost').innerHTML;
-            price.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3);
-            priced.innerHTML= (parseFloat(beforedost)+(parseFloat(dost)*(parseFloat(marza)/100+0,18))).toFixed(3); // TODO
+            var array = nambb.split('|');
+            var formula = array[2];
+            var j = array[1];
+            var count = document.getElementById('count'+j).innerHTML;
+            if (formula=='Восход'){
+                price.innerHTML= ((parseFloat(beforedost)+(parseFloat(dost)*(1+parseFloat(marza)/100+0.18)))/count).toFixed(3);
+                priced.innerHTML= ((parseFloat(beforedost)+(parseFloat(dost)*(1+parseFloat(marza)/100+0.18)))/count).toFixed(3); // TODO
+            }else
+            {
+                var first = parseFloat(dost)+(parseFloat(price.innerHTML)*count+parseFloat(dost))*0.06;
+                price.innerHTML= ((parseFloat(beforedost)+ first*(parseFloat(marza)/100))/count).toFixed(3);
+                priced.innerHTML= ((parseFloat(beforedost)+ first*(parseFloat(marza)/100))/count).toFixed(3); // TODO
+            }
+
         }
 
-<<<<<<< HEAD
-        // $('input[name=1]:checked', '#myForm').val()
-=======
->>>>>>> origin/master
+
     </script>
 
 <?php
 }
 ?>
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 
 
 
