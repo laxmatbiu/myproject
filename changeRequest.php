@@ -128,7 +128,7 @@ else {
                         <td style="border: 1px solid"><?php echo $st['supl'];?></td>
                         <td style="border: 1px solid; text-align: center" id="priced<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $priced;?></td>
                         <td style="border: 1px solid; text-align: center" id="price<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['price'];?></td>
-                        <td style="border: 1px solid; text-align: center"><?php echo $st['invoice'];?></td>
+                        <td style="border: 1px solid; text-align: center" id="invoice<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['invoice'];?></td>
                         <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="dost<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center" class="<?php echo $gg;?>"><?php echo $st['dost'];?></td>
                         <td name="<?php echo $i.'|'.$j.'|'.$st['formula']?>" id="marz<?php echo $i.'|'.$j.'|'.$st['formula']?>" style="border: 1px solid; text-align: center; top: 50%" class="marza"><?php echo $st['marza'];?></td>
                         <td style="border: 1px solid; text-align: center" id="formula<?php echo $i.'|'.$j.'|'.$st['formula']?>"><?php echo $st['formula'];?></td>
@@ -235,11 +235,33 @@ else {
 
         function changePrice(){
             var marza = document.getElementById('marz'+namb).innerHTML;
-            var price = document.getElementById('price'+namb);// без скизки
+            var price = document.getElementById('price'+namb).innerHTML;// без скизки
             var priced = document.getElementById('priced'+namb);//cо скидкой
+            var invoice = document.getElementById('invoice'+namb).innerHTML;
             var beforemarza = document.getElementById('beforemarza').innerHTML;
-            price.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3);
-            priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
+            var discount = document.getElementById('discount').innerHTML;
+            var array = namb.split('|');
+            var j = array[1];
+            var count = document.getElementById('count'+j).innerHTML;
+            var formula = document.getElementById('formula'+namb).innerHTML;
+            price = (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3);
+            if (discount!=0){
+            var disk = discount/100
+            }else
+            {
+            var disk = 0;
+            }
+            if (formula=='Китай'){
+            var part = invoice * count * (1+0.18+parseFloat(marza)/100);
+            var before = ((price*count - part)/count);
+
+                priced.innerHTML= (((before*count + invoice * count * (1+0.18+parseFloat(marza)/100)-parseFloat(disk))/count)).toFixed(3); // TODO
+            }else if (formula=='Восход'){
+                priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
+            }else {
+                priced.innerHTML= (parseFloat(beforemarza)*(1+(parseFloat(marza)/100))).toFixed(3); // TODO
+            }
+
         }
 
 
@@ -319,7 +341,7 @@ else {
                         } else {
                             var first = (parseFloat(price)*count+parseFloat(dostOld))*0.06;
                             var k = (parseFloat(dostOld)+parseFloat(first))*(parseFloat(marza)/100);
-                            var beforedost = parseFloat(price)*count-parseFloat(k);//todo fix
+                            var beforedost = parseFloat(price)*count-parseFloat(k);
                         }
                         var someid = document.getElementById('beforedost');
                         if (someid){
